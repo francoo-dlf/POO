@@ -1,5 +1,7 @@
 package Ej5;
 
+import java.security.SecureRandom;
+
 public class CuentaCorriente {
 	public String iban;
 	private float saldo;
@@ -11,7 +13,7 @@ public class CuentaCorriente {
 	}
 	
 	public CuentaCorriente(String iban, float porcentajeComision) {
-		this.iban = iban;
+		this.iban = generarIBAN();
 		this.saldo = 0;
 		this.porcentajeComision = porcentajeComision;
 		this.ingresoCuenta = 0;
@@ -83,5 +85,17 @@ public class CuentaCorriente {
 		} else
 			// SI NO ALCANZA, DEVUELVE FALSE
 			return false;
+	}
+	
+	public static String generarIBAN() {
+	    SecureRandom sr = new SecureRandom();
+	    String iban = "ES";
+
+	    for (int i = 0; i < 22; i++) {
+	        int numero = sr.nextInt(10); 
+	        iban += numero;              
+	    }
+
+	    return iban;
 	}
 }
