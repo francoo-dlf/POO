@@ -28,7 +28,7 @@ public class GestionAPP {
 				crearAlumno(alumnosList, sc, cursosList);
 				break;
 			case 2:
-				crearCurso(alumnosList,sc,cursosList);
+				crearCurso(alumnosList, sc, cursosList);
 				break;
 			case 3:
 			case 4:
@@ -50,41 +50,73 @@ public class GestionAPP {
 		int edad = 0;
 		String curso;
 		boolean repetido = false;
-		Curso cursos = new Curso();
+		boolean edadinv = false;
+		boolean existe = false;
 
+		// comprobar que existan cursos
+		if (cursosList.isEmpty()) {
+			// si el arrayList esta vacio, vuelve al menu para crear un curso
+			System.out.println("No existen cursos todavia, cree uno");
+			return;
+		}
+
+		// si existen, pedimos los datos para crear un alumno
+		// verificamos que el nombre no exista
 		do {
 			repetido = false;
-			System.out.println("Ingrese su nombre: ");
+			System.out.println("Ingrese su nombre");
 			nombre = sc.nextLine();
 
 			for (int i = 0; i < alumnosList.size(); i++) {
 				if (alumnosList.get(i).getNombre().equalsIgnoreCase(nombre)) {
+					System.out.println("Ese nombre ya existe");
 					repetido = true;
 					break;
 				}
 			}
-
-			if (!repetido) {
-				System.out.println("Ingrese su edad: ");
-				edad = sc.nextInt();
-				sc.nextLine();
-				System.out.println("Ingrese su curso");
-				curso = sc.nextLine();
-				for(int i = 0; i < cursosList.size(); i++) {
-					if(!cursosList.get(i).getTitulo().equalsIgnoreCase(curso)) {
-						cursos.setTitulo(curso);
-						cursosList.add(cursos);
-					} else {
-						cursosList.add(cursos);
-					}
-				}
-			}
-			
-			Alumno newAlumno = new Alumno(nombre, edad);
-			alumnosList.add(newAlumno);
-
 		} while (repetido);
 
+		// verificamos que la edad sea un valor valido
+		do {
+			edadinv = false;
+			System.out.println("Ingrese su edad");
+			edad = sc.nextInt();
+			sc.nextLine();
+
+			if (edad <= 0) {
+				System.out.println("Ingrese una edad valida");
+				edadinv = true;
+			}
+		} while (edadinv);
+
+		// mostramos los cursos para que elija uno
+		do {
+			existe = false;
+			System.out.println("Cursos Disponibles: ");
+			for (int i = 0; i < cursosList.size(); i++) {
+				System.out.println("o " + cursosList.get(i).getTitulo());
+			}
+
+			System.out.println("\nElija un curso");
+			curso = sc.nextLine();
+
+			for (int i = 0; i < cursosList.size(); i++) {
+				if (cursosList.get(i).getTitulo().equalsIgnoreCase(curso)) {
+					curso = cursosList.get(i).getTitulo();
+					existe = true;
+					break;
+				}
+			}
+
+			if (!existe) {
+				System.out.println("El curso no existe");
+			}
+		} while (!existe);
+
+		// guardamos los datos en el constructor
+		Alumno alumno = new Alumno(nombre, edad);
+		alumno.aniadirCursos(curso);
+		alumnosList.add(alumno);
 	}
 
 	// Option 2
@@ -94,12 +126,9 @@ public class GestionAPP {
 		String descripcion;
 		String profesor;
 
-		for(int i = 0; i < alumnosList.size(); i++){
-			
+		for (int i = 0; i < alumnosList.size(); i++) {
+
 		}
 	}
-	
-	
-	
-	
+
 }
